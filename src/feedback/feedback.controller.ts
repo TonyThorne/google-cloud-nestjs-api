@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { FeedbackData } from './feedback.model';
 import { FeedbackService } from './feedback.service';
 
@@ -7,7 +8,7 @@ export class FeedbackController {
   constructor(private feedbackService: FeedbackService) { }
 
   @Get()
-  getAllFeedback(): FeedbackData[] {
+  getAllFeedback(): Observable<FeedbackData[]> {
     return this.feedbackService.getAllFeedback();
   }
 
@@ -18,7 +19,7 @@ export class FeedbackController {
     @Body('email') email: string,
     @Body('subject') subject: string,
     @Body('details') details: string,
-  ): FeedbackData {
+  ): Observable<FeedbackData> {
     return this.feedbackService.creatFeedback(
       dateTime,
       name,

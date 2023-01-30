@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { FeedbackController } from './feedback.controller';
 import { FeedbackService } from './feedback.service';
 
 @Module({
-    controllers: [FeedbackController],
-    providers: [FeedbackService]
+  imports: [HttpModule],
+  controllers: [FeedbackController],
+  providers: [FeedbackService]
 })
 export class FeedbackModule { }
