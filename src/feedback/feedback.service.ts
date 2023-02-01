@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { FeedbackData } from './feedback.model';
 import { HttpService } from '@nestjs/axios';
 import { catchError, Observable, map, tap } from 'rxjs';
+import { uuid } from 'uuidv4';
 @Injectable()
 export class FeedbackService {
   constructor(private readonly httpService: HttpService) { }
@@ -20,9 +21,8 @@ export class FeedbackService {
     subject: string,
     details: string,
   ): Observable<FeedbackData> {
-    Logger.log('info');
     const feedbackData: FeedbackData = {
-      id: Math.random().toString(),
+      id: uuid(),
       dateTime: dateTime,
       name: name,
       email: email,
@@ -45,7 +45,8 @@ export class FeedbackService {
         status: { label: 'Add to backlog' },
         email: { email: feedbackData.email, text: feedbackData.email },
         text8: feedbackData.subject,
-        long_text: feedbackData.details
+        long_text: feedbackData.details,
+        text6: feedbackData.id
       }),
     }
     const mondayMutation5 = `mutation ($myItemName: String!, $column_values: JSON!){ create_item(board_id: 3748755036, group_id: "topics", item_name: $myItemName, 
