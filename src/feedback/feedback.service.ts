@@ -36,7 +36,7 @@ export class FeedbackService {
         'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjIxNjc0MDM0OSwidWlkIjozNzc4OTUxMSwiaWFkIjoiMjAyMy0wMS0wNFQxMToxMDoxNS4zNTJaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTQ2NTgyNTksInJnbiI6InVzZTEifQ.UfFLrhJT67Grh6q5WsQUNyesDtC1N4zY2Q2YiYJ7nUk',
     };
 
-    const today = new Date().toISOString().split("T")[0]
+    const today = new Date().toISOString().split('T')[0];
 
     const vars = {
       myItemName: feedbackData.name,
@@ -46,7 +46,7 @@ export class FeedbackService {
         email: { email: feedbackData.email, text: feedbackData.email },
         text8: feedbackData.subject,
         long_text: feedbackData.details,
-        text6: feedbackData.id
+        text6: feedbackData.id,
       }),
     }
     const mondayMutation5 = `mutation ($myItemName: String!, $column_values: JSON!){ create_item(board_id: 3748755036, group_id: "topics", item_name: $myItemName, 
@@ -58,7 +58,7 @@ export class FeedbackService {
         'https://api.monday.com/v2',
         {
           query: mondayMutation5,
-          variables: JSON.stringify(vars)
+          variables: JSON.stringify(vars),
         },
         {
           headers: headers,
