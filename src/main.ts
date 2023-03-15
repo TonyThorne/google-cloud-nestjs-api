@@ -1,10 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  const app = await NestFactory.create(AppModule)
+  app.enableCors()
   // https://www.tomray.dev/deploy-nestjs-cloud-run
-  await app.listen(parseInt(process.env.PORT) || 3000);
+  await app.listen(parseInt(process.env.PORT) || 3000)
 }
-bootstrap();
+bootstrap()
