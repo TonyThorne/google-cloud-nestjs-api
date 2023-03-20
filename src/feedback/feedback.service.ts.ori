@@ -18,48 +18,33 @@ export class FeedbackService {
   }
 
   async mondayapi(): Promise<object> {
-    try {
-      const res = await secretesFactory('google')
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: res,
-      }
-      return headers
-    } catch (error) {
-      Logger.error('Error in mondayapi:', error)
-      throw new Error('Failed to get Monday API headers.')
+    const res = await secretesFactory('google').then((res: string) => {
+      return res
+    })
+    // Logger.log('mondayApi', res)
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: res,
     }
+    return headers
   }
 
-  async createFeedback(
+  creatFeedback(
     dateTime: Date,
     name: string,
     email: string,
     subject: string,
     details: string,
-  ): Promise<any> {
-    try {
-      const feedbackData: FeedbackData = {
-        id: uuid(),
-        dateTime: dateTime,
-        name: name,
-        email: email,
-        subject: subject,
-        details: details,
-      }
-
-      const headers = await this.mondayapi()
-      return this.sendFeedbackToMonday(feedbackData, headers)
-    } catch (error) {
-      Logger.error('Error in createFeedback:', error)
-      throw new Error('Failed to create feedback.')
+  ): any {
+    const feedbackData: FeedbackData = {
+      id: uuid(),
+      dateTime: dateTime,
+      name: name,
+      email: email,
+      subject: subject,
+      details: details,
     }
-  }
 
-  sendFeedbackToMonday(
-    feedbackData: FeedbackData,
-    headers: any,
-  ): Observable<any> {
     const today = new Date().toISOString().split('T')[0]
 
     const vars = {
@@ -77,24 +62,26 @@ export class FeedbackService {
         column_values: $column_values
         ) {  id  }  }`
 
-    return this.httpService
-      .post(
-        'https://api.monday.com/v2',
-        {
-          query: mondayMutation5,
-          variables: JSON.stringify(vars),
-        },
-        {
-          headers: headers,
-        },
-      )
-      .pipe(
-        catchError((error: any) => {
-          Logger.error('Error in sendFeedbackToMonday:', error.response.data)
-          throw 'An error happened!'
-        }),
-        tap((response) => Logger.log('info', response.data)),
-        map((response) => response.data),
-      )
+    return this.mondayapi().then((headers: any) => {
+      return this.httpService
+        .post(
+          'https://api.monday.com/v2',
+          {
+            query: mondayMutation5,
+            variables: JSON.stringify(vars),
+          },
+          {
+            headers: headers,
+          },
+        )
+        .pipe(
+          catchError((error: any) => {
+            Logger.error(error.response.data)
+            throw 'An error happened!'
+          }),
+          tap((response) => Logger.log('info', response.data)),
+          map((response) => response.data),
+        )
+    })
   }
 }
