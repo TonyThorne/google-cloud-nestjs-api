@@ -50,7 +50,12 @@ describe('FeedbackController', () => {
       return request(app.getHttpServer())
         .get('/feedback')
         .expect(HttpStatus.OK)
-        .expect(feedbackData)
+        .expect(
+          feedbackData.map((feedback) => ({
+            ...feedback,
+            dateTime: feedback.dateTime.toISOString(),
+          })),
+        )
     })
   })
 })

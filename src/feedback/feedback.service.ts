@@ -27,7 +27,9 @@ export class FeedbackService {
       return headers
     } catch (error) {
       Logger.error('Error in mondayapi:', error)
-      throw new Error('Failed to get Monday API headers.')
+      throw new Error(
+        'Failed to get Monday API headers from Google secretes store.',
+      )
     }
   }
 
