@@ -6,6 +6,10 @@ GET https://test-api-lvpopocrba-nw.a.run.app/rbac-search?r=R8000
 Content-Type: application/json
 
 ###
+GET https://test-api-lvpopocrba-nw.a.run.app/feedback
+Content-Type: application/json
+
+###
 POST https://test-api-lvpopocrba-nw.a.run.app/feedback
 
 Content-Type: application/json
