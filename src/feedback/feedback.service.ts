@@ -1,4 +1,4 @@
-import { Catch, Injectable, Logger } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import { FeedbackData } from './feedback.model'
 import { HttpService } from '@nestjs/axios'
 import { catchError, Observable, map, tap } from 'rxjs'
@@ -38,8 +38,9 @@ export class FeedbackService {
       return headers
     } catch (error) {
       Logger.error('Error in mondayapi:', error)
-      throw new Error(
+      throw new HttpException(
         'Failed to get Monday API headers from Google secretes store.',
+        HttpStatus.SERVICE_UNAVAILABLE,
       )
     }
   }
@@ -65,7 +66,10 @@ export class FeedbackService {
       return this.sendFeedbackToMonday(feedbackData, headers)
     } catch (error) {
       Logger.error('Error in createFeedback:', error)
-      throw new Error('Failed to create feedback.')
+      throw new HttpException(
+        'Failed to send feedback to Monday.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      )
     }
   }
 
@@ -103,8 +107,11 @@ export class FeedbackService {
       )
       .pipe(
         catchError((error: any) => {
-          Logger.error('Error in sendFeedbackToMonday:', error.response.data)
-          throw 'An error happened!'
+          Logger.error('Error in sendFeedbackToMonday:', error)
+          throw new HttpException(
+            'Error in Monday API',
+            HttpStatus.SERVICE_UNAVAILABLE,
+          )
         }),
         tap((response) => Logger.log('info', response.data)),
         map((response) => response.data),

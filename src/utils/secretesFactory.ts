@@ -5,7 +5,11 @@ import { cegedim } from './cegedimSecrete'
 export function secretesFactory(service?: string): any {
   switch (service) {
     case 'google':
-      return google()
+      try {
+        return google()
+      } catch (error) {
+        throw new Error('Failed to get Google secretes.')
+      }
     case 'cegedim':
       return cegedim()
     default:

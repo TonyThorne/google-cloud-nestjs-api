@@ -1,6 +1,7 @@
 'use strict'
 
 export async function main(
+  // name = 'projects/396881755897/secrets/mondaykey/versions/',
   name = 'projects/396881755897/secrets/mondaykey/versions/1',
 ) {
   // Imports the Secret Manager library
