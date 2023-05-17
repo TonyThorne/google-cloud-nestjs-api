@@ -15,7 +15,7 @@ export class RbacSearchController {
   ): string {
     const result = this.rbacSearchService.search(sg, ssg, r, a)
 
-    return result || `Hello from RBAC search
+    return result || `Hello from RBAC search!
     Possible query parameters:
     sg | "Staff Group": "Admin & Clerical",
     sg | "Staff Group Code": "S0080",
